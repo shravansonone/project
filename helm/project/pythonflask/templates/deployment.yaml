@@ -1,0 +1,53 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.fullname }}-db
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.fullname }}-db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.fullname }}-db
+    spec:
+      containers:
+      - image: {{ .Values.mysqldbImage }}
+        name: {{ .Values.fullname }}-db
+        imagePullPolicy: Never
+        ports:
+        - containerPort: {{ .Values.mysqlContainerPort }}
+          name: {{ .Values.fullname }}-db
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.fullname }}-app
+  labels:
+    app: {{ .Values.fullname }}-app
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.fullname }}-app
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.fullname }}-app
+    spec:
+      containers:
+        - name: {{ .Values.fullname }}-app
+          image: {{ .Values.appImage }}
+          imagePullPolicy: Never
+          ports:
+            - containerPort: {{ .Values.appContainerPort }}
+          env:
+            - name: db_root_password
+              value: root
+            - name: db_name
+              value: flaskapp
+

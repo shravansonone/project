@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: python
+  labels:
+    name: python
+spec:
+  containers:
+  - name: python-flask-app-container
+    image: pythonimage
+    imagePullPolicy: Never

@@ -1,0 +1,14 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hpapython
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: python-deployment
+  minReplicas: 1 
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
+ 

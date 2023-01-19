@@ -1,0 +1,16 @@
+#mysql
+replicaCount: 1
+
+mysqldbImage: mysqllatestimage
+
+mysqlContainerPort: 3306
+
+mysqltargetPort: 3306
+
+#python
+appImage: mysqllatestimage
+appContainerPort: 9000
+apptargetPort: 9000
+
+fullname: web
+

@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pythonstatefulset
+  labels:
+    app: flaskapiset
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flaskapiset
+  template:
+    metadata:
+      labels:
+        app: flaskapiset
+    spec:
+      containers:
+        - name: pythonstataefullset
+          image: pythonstatefulsetimage
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 9000
+          env:
+            - name: db_root_password
+              valueFrom:
+                secretKeyRef:
+                  name: flaskapi-secrets
+                  key: db_root_password
+            - name: db_name
+              value: flaskapp
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pythonstatefulset
+spec:
+  ports:
+  - port: 9000
+    protocol: TCP
+    targetPort: 9000
+  selector:
+    app: flaskapiset
+  type: NodePort

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-set
+spec:
+  selector:
+    matchLabels:
+      app: mysql-set
+  serviceName: "mysql-set"
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: mysql-set
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: mysql-set
+        image: mysqllatestimage
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3306
+          name: mysql-set
+        volumeMounts:  
+        - name: mysql-pv
+          mountPath: /mnt/data   
+      volumes:  
+         - name: mysql-pv
+           persistentVolumeClaim:
+            claimName: mysql-pvc
+

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-deployment
+  labels:
+    run: python
+spec:
+  replicas: 
+  selector:
+    matchLabels:
+      run: python
+  template:
+    metadata:
+      labels:
+        run: python
+    spec:
+      containers:
+      - name: python-flask-app-container
+        image: pythonimage
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 9000

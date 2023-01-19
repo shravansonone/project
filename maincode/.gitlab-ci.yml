@@ -1,0 +1,22 @@
+variables:
+  IMAGE_NAME: shravansonone/myrepo
+  IMAGE_TAG: pythonapplication
+
+stages:          # List of stages for jobs, and their order of execution
+  - build
+  - push
+
+
+build-job:
+  stage: build
+  tags:
+   - flaskapp #runnertag
+  script:
+   - docker build -t $IMAGE_NAME:$IMAGE_TAG .
+
+push-job:
+  stage: push
+  tags:
+   - flaskapp #runnertag
+  script:
+   - docker image push $IMAGE_NAME:$IMAGE_TAG 
